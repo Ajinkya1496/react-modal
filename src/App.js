@@ -19,15 +19,15 @@ class App extends React.Component{
   }
 
 
-  toggleModal = () => {
-      this.setState({showModal: true});
+  toggleModal = (e) => {
+      this.setState({showModal: !this.state.showModal});
   }
 
   render() {
     return (
       <div className="App">
         <button onClick={this.toggleModal}>Show Modal</button>
-        <Modal show={this.state.showModal}>
+        <Modal show={this.state.showModal} onClose={this.toggleModal}>
           <div>Content inside modal</div>
         </Modal>
       </div>
