@@ -12,7 +12,10 @@ class Modal extends React.Component {
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
-            this.handleClose();
+            if(e.keyCode === 27) {
+                this.handleEsc();
+                return;
+            }
             const firstElement = ReactDOM.findDOMNode(this.refs[0])
             if (!firstElement) return;
             const allFocusableElements = firstElement.parentElement.querySelectorAll(focusableElements);
@@ -44,11 +47,21 @@ class Modal extends React.Component {
         });
     }
 
-    handleClose = (event) => {
-        event = event || window.event;
-        if (event.keyCode === 27 || event.nativeEvent instanceof MouseEvent) {
+    handleOutsideClick = (event) => {
+        if (this.props.closeOnBlur === undefined || this.props.closeOnBlur === true) {
             this.props.onClose && this.props.onClose(event);
         }
+    }
+
+    handleEsc = () => {
+        if (this.props.closeOnEsc === undefined || this.props.closeOnEsc === true) {
+            this.handleClose();
+        }
+    }
+
+    handleClose = (event) => {
+        event = event || window.event;
+        this.props.onClose && this.props.onClose(event);
     }
 
     render() {
@@ -56,7 +69,7 @@ class Modal extends React.Component {
             return null;
         }
         return (
-            <section className="modal-bg" role="dialog" onClick={this.handleClose}>
+            <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
                 <div className="modal-content">
                     <span tabIndex={0} className="btn-close" onClick={this.handleClose}>X</span>
                     {React.Children.map(this.props.children, (element, idx) => {
@@ -71,6 +84,8 @@ class Modal extends React.Component {
 Modal.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
+    closeOnBlur: PropTypes.bool,
+    closeOnEsc: PropTypes.bool,
 }
 
 export default Modal;
