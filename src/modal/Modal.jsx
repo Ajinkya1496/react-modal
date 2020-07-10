@@ -9,6 +9,7 @@ const focusableElements =
 class Modal extends React.Component {
 
     componentDidMount() {
+        // this.closeButton.focus();
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
@@ -47,6 +48,27 @@ class Modal extends React.Component {
         });
     }
 
+    componentDidUpdate() {
+        if (this.props.show && this.refs) {
+            console.log(this.refs)
+
+            for (let i = 0; i < Object.keys(this.refs).length; i++) {
+                if (this.refs[i].nodeName === 'INPUT') {
+                    this.refs[i].focus();
+                    break;
+                }
+            }
+            if (document.activeElement.nodeName !== 'INPUT') {
+                for (let i = 0; i < Object.keys(this.refs).length; i++) {
+                    if (focusableElements.includes(this.refs[i].localName)) {
+                        this.refs[i].focus();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
     handleOutsideClick = (event) => {
         if (this.props.closeOnBlur === undefined || this.props.closeOnBlur === true) {
             this.props.onClose && this.props.onClose(event);
@@ -70,17 +92,23 @@ class Modal extends React.Component {
         }
 
     }
-    posTop; posLeft;
+
+    handleModalContentClick = (event) => {
+        event.stopPropagation();
+    }
 
     render() {
         if (this.props.show === false) {
             return null;
         }
-        
+
+
         return (
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
-                <div style={{height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left}} className="modal-content">
-                    <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown} tabIndex={0} className="btn-close" onClick={this.handleClose}>
+                <div style={{ height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left }} className="modal-content" onClick={this.handleModalContentClick}>
+                    <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown}
+                        tabIndex={0} className="btn-close" onClick={this.handleClose}
+                    >
                         &times;
                     </span>
                     {React.Children.map(this.props.children, (element, idx) => {
