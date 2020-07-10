@@ -12,7 +12,7 @@ class Modal extends React.Component {
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
-            if(e.keyCode === 27) {
+            if (e.keyCode === 27) {
                 this.handleEsc();
                 return;
             }
@@ -64,6 +64,13 @@ class Modal extends React.Component {
         this.props.onClose && this.props.onClose(event);
     }
 
+    handleCloseIconKeyDown = (event) => {
+        if (event.keyCode && (event.keyCode === 13 || event.keyCode === 32)) {
+            this.handleClose();
+        }
+
+    }
+
     render() {
         if (this.props.show === false) {
             return null;
@@ -71,7 +78,7 @@ class Modal extends React.Component {
         return (
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
                 <div className="modal-content">
-                    <span tabIndex={0} className="btn-close" onClick={this.handleClose}>X</span>
+                    <span onKeyDown={this.handleCloseIconKeyDown} tabIndex={0} className="btn-close" onClick={this.handleClose}>X</span>
                     {React.Children.map(this.props.children, (element, idx) => {
                         return React.cloneElement(element, { ref: idx });
                     })}
