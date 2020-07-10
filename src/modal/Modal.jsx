@@ -70,15 +70,19 @@ class Modal extends React.Component {
         }
 
     }
+    posTop; posLeft;
 
     render() {
         if (this.props.show === false) {
             return null;
         }
+        
         return (
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
-                <div className="modal-content">
-                    <span onKeyDown={this.handleCloseIconKeyDown} tabIndex={0} className="btn-close" onClick={this.handleClose}>X</span>
+                <div style={{height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left}} className="modal-content">
+                    <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown} tabIndex={0} className="btn-close" onClick={this.handleClose}>
+                        &times;
+                    </span>
                     {React.Children.map(this.props.children, (element, idx) => {
                         return React.cloneElement(element, { ref: idx });
                     })}
@@ -93,6 +97,10 @@ Modal.propTypes = {
     onClose: PropTypes.func.isRequired,
     closeOnBlur: PropTypes.bool,
     closeOnEsc: PropTypes.bool,
+    height: PropTypes.string,
+    width: PropTypes.string,
+    top: PropTypes.string,
+    left: PropTypes.string
 }
 
 export default Modal;
