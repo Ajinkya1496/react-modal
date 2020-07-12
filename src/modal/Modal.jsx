@@ -10,7 +10,6 @@ class Modal extends React.Component {
 
     initialLoad = false;
     componentDidMount() {
-        this.initialLoad = true;
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
@@ -92,7 +91,7 @@ class Modal extends React.Component {
         if (this.props.show === false) {
             return null;
         }
-
+        this.initialLoad = true;
 
         return (
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
