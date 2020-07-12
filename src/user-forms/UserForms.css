@@ -1,10 +1,44 @@
 .form-fields {
     display: flex;
     justify-content: space-evenly;
+    margin: 8px;
 }
 
 .form-label {
     display: inline-block;
     width: 140px;
     text-align: right;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1;
+    border-radius: .25rem;
+    cursor: pointer;
+}
+
+.mt-auto {
+    margin: 10px;
+}
+.mr-10 {
+    margin-right: 10px;
 }
