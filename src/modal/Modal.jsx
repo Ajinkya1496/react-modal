@@ -8,7 +8,10 @@ const focusableElements =
 
 class Modal extends React.Component {
 
+    initialLoad = false;
+
     componentDidMount() {
+        this.initialLoad = true;
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
@@ -40,13 +43,16 @@ class Modal extends React.Component {
 
     componentDidUpdate() {
         if (this.props.show && this.refs) {
-            const allFocusableElements = this.getAllFocusableElements(this.refs);
+            if (this.initialLoad) {
+                const allFocusableElements = this.getAllFocusableElements(this.refs);
 
-            if (allFocusableElements.length === 1) {
-                allFocusableElements[0].focus();
-            } else {
-                allFocusableElements[1].focus();
+                if (allFocusableElements.length === 1) {
+                    allFocusableElements[0].focus();
+                } else {
+                    allFocusableElements[1].focus();
+                }
             }
+            this.initialLoad = false;
         }
     }
 
