@@ -9,7 +9,6 @@ const focusableElements =
 class Modal extends React.Component {
 
     initialLoad = false;
-
     componentDidMount() {
         this.initialLoad = true;
         document.addEventListener('keydown', (e) => {
@@ -19,8 +18,7 @@ class Modal extends React.Component {
                 this.handleEsc();
                 return;
             }
-
-            const allFocusableElements = this.getAllFocusableElements(this.refs);
+            const allFocusableElements = this.getAllFocusableElements(this.modalContainerRef);
             const firstFocusableElement = allFocusableElements[0];
             const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
 
@@ -42,9 +40,9 @@ class Modal extends React.Component {
     }
 
     componentDidUpdate() {
-        if (this.props.show && this.refs) {
+        if (this.props.show && this.modalContainerRef) {
             if (this.initialLoad) {
-                const allFocusableElements = this.getAllFocusableElements(this.refs);
+                const allFocusableElements = this.getAllFocusableElements(this.modalContainerRef);
 
                 if (allFocusableElements.length === 1) {
                     allFocusableElements[0].focus();
@@ -56,8 +54,8 @@ class Modal extends React.Component {
         }
     }
 
-    getAllFocusableElements(refs) {
-        const firstElement = ReactDOM.findDOMNode(refs[0]);
+    getAllFocusableElements(ref) {
+        const firstElement = ReactDOM.findDOMNode(ref);
         const allFocusableElements = firstElement.parentElement.querySelectorAll(focusableElements);
         return allFocusableElements;
     }
@@ -98,7 +96,9 @@ class Modal extends React.Component {
 
         return (
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
-                <div style={{ height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left }} className="modal-content" onClick={this.handleModalContentClick}>
+                <div ref={(modalContainerRef) => { this.modalContainerRef = modalContainerRef }}
+                    style={{ height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left }}
+                    className="modal-content" onClick={this.handleModalContentClick}>
                     <div className="btn-close-container">
                         <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown}
                             tabIndex={0} className="btn-close" onClick={this.handleClose}
@@ -106,10 +106,7 @@ class Modal extends React.Component {
                             &times;
                     </span>
                     </div>
-
-                    {React.Children.map(this.props.children, (element, idx) => {
-                        return React.cloneElement(element, { ref: idx });
-                    })}
+                    {this.props.children}
                 </div>
             </section>
         )
