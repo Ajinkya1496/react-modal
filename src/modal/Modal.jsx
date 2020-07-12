@@ -16,20 +16,14 @@ class Modal extends React.Component {
                 this.handleEsc();
                 return;
             }
-            const firstElement = ReactDOM.findDOMNode(this.refs[0])
-            if (!firstElement) return;
-            const allFocusableElements = firstElement.parentElement.querySelectorAll(focusableElements);
-            const firstFocusableElement = firstElement.parentElement.querySelectorAll(focusableElements)[0];
+
+            const allFocusableElements = this.getAllFocusableElements(this.refs);
+            const firstFocusableElement = allFocusableElements[0];
             const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
 
-
-            if (allFocusableElements.length < 1) return;
-
-            let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-            if (!isTabPressed) {
+            if (e.keyCode !== 9) {
                 return;
             }
-
             if (e.shiftKey) {
                 if (document.activeElement === firstFocusableElement) {
                     lastFocusableElement.focus();
@@ -39,9 +33,6 @@ class Modal extends React.Component {
                 if (document.activeElement === lastFocusableElement) {
                     firstFocusableElement.focus();
                     e.preventDefault();
-                } else if (!Array.from(allFocusableElements).includes(document.activeElement)) {
-                    firstFocusableElement.focus();
-                    e.preventDefault();
                 }
             }
         });
@@ -49,29 +40,20 @@ class Modal extends React.Component {
 
     componentDidUpdate() {
         if (this.props.show && this.refs) {
+            const allFocusableElements = this.getAllFocusableElements(this.refs);
 
-            for (let i = 0; i < Object.keys(this.refs).length; i++) {
-                if (this.refs[i].nodeName === 'INPUT') {
-                    this.refs[i].focus();
-                    break;
-                }
-            }
-            if (document.activeElement.nodeName !== 'INPUT') {
-                let i = 0;
-                const refLen = Object.keys(this.refs).length
-                for (i = 0; i < refLen; i++) {
-                    if (focusableElements.includes(this.refs[i].localName)) {
-                        this.refs[i].focus();
-                        break;
-                    }
-                }
-                if (i === refLen) {
-                    this.refs[0].style.outline = 'none';
-                    this.refs[0].tabIndex = -1;
-                    this.refs[0].focus();
-                }
+            if (allFocusableElements.length === 1) {
+                allFocusableElements[0].focus();
+            } else {
+                allFocusableElements[1].focus();
             }
         }
+    }
+
+    getAllFocusableElements(refs) {
+        const firstElement = ReactDOM.findDOMNode(refs[0]);
+        const allFocusableElements = firstElement.parentElement.querySelectorAll(focusableElements);
+        return allFocusableElements;
     }
 
     handleOutsideClick = (event) => {
