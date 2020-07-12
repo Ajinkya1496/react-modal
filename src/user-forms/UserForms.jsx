@@ -19,9 +19,11 @@ class UserForms extends React.Component {
 
     render() {
         return (
-            <>
-                <button onClick={this.toggleSignUp}>Sign Up</button>
-                <button onClick={this.toggleLogin}>Login</button>
+            <>  
+                <div className="mt-auto">
+                    <button className="btn btn-secondary mr-10" onClick={this.toggleSignUp}>Sign Up</button>
+                    <button className="btn btn-primary" onClick={this.toggleLogin}>Login</button>
+                </div>
 
                 <Modal show={this.state.showLogin} onClose={this.toggleLogin}>
                     <form onSubmit={() => navigate('dashboard')}>
@@ -34,7 +36,7 @@ class UserForms extends React.Component {
                             <input id="password" type="password" name="password" placeholder="Password" required /><br />
                         </div>
 
-                        <button type="submit">Login</button>
+                        <button className="btn btn-primary" type="submit">Login</button>
                     </form>
                 </Modal>
 
@@ -52,7 +54,7 @@ class UserForms extends React.Component {
                             <label className="form-label" htmlFor="confirmPassword">Confirm Password</label>
                             <input id="confirmPassword" type="password" name="confirmPassword" placeholder="Confirm Password" required /><br />
                         </div>
-                        <button type="submit">Sign Up</button>
+                        <button className="btn btn-secondary" type="submit">Sign Up</button>
                     </form>
                 </Modal>
             </>
