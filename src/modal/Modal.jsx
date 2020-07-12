@@ -57,11 +57,18 @@ class Modal extends React.Component {
                 }
             }
             if (document.activeElement.nodeName !== 'INPUT') {
-                for (let i = 0; i < Object.keys(this.refs).length; i++) {
+                let i = 0;
+                const refLen = Object.keys(this.refs).length
+                for (i = 0; i < refLen; i++) {
                     if (focusableElements.includes(this.refs[i].localName)) {
                         this.refs[i].focus();
                         break;
                     }
+                }
+                if (i === refLen) {
+                    this.refs[0].style.outline = 'none';
+                    this.refs[0].tabIndex = -1;
+                    this.refs[0].focus();
                 }
             }
         }
@@ -105,13 +112,13 @@ class Modal extends React.Component {
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
                 <div style={{ height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left }} className="modal-content" onClick={this.handleModalContentClick}>
                     <div className="btn-close-container">
-                    <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown}
-                        tabIndex={0} className="btn-close" onClick={this.handleClose}
-                    >
-                        &times;
+                        <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown}
+                            tabIndex={0} className="btn-close" onClick={this.handleClose}
+                        >
+                            &times;
                     </span>
                     </div>
-                    
+
                     {React.Children.map(this.props.children, (element, idx) => {
                         return React.cloneElement(element, { ref: idx });
                     })}
