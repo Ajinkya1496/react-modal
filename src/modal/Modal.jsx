@@ -9,7 +9,6 @@ const focusableElements =
 class Modal extends React.Component {
 
     componentDidMount() {
-        // this.closeButton.focus();
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
@@ -50,7 +49,6 @@ class Modal extends React.Component {
 
     componentDidUpdate() {
         if (this.props.show && this.refs) {
-            console.log(this.refs)
 
             for (let i = 0; i < Object.keys(this.refs).length; i++) {
                 if (this.refs[i].nodeName === 'INPUT') {
@@ -106,11 +104,14 @@ class Modal extends React.Component {
         return (
             <section className="modal-bg" role="dialog" onClick={this.handleOutsideClick}>
                 <div style={{ height: this.props.height, width: this.props.width, top: this.props.top, left: this.props.left }} className="modal-content" onClick={this.handleModalContentClick}>
+                    <div className="btn-close-container">
                     <span aria-hidden="true" onKeyDown={this.handleCloseIconKeyDown}
                         tabIndex={0} className="btn-close" onClick={this.handleClose}
                     >
                         &times;
                     </span>
+                    </div>
+                    
                     {React.Children.map(this.props.children, (element, idx) => {
                         return React.cloneElement(element, { ref: idx });
                     })}
