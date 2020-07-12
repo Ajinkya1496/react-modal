@@ -51,8 +51,7 @@ class Modal extends React.Component {
     }
 
     getAllFocusableElements(refs) {
-        const firstElement = ReactDOM.findDOMNode(refs[0])
-        if (!firstElement) return;
+        const firstElement = ReactDOM.findDOMNode(refs[0]);
         const allFocusableElements = firstElement.parentElement.querySelectorAll(focusableElements);
         return allFocusableElements;
     }
