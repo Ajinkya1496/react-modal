@@ -28,7 +28,7 @@ toggleModalVisibility = () => {
 | Property        | Description                                 | Default |   Required
 | -------------   |:-------------:                              | -----:  |   -----:|
 | `show : boolean`        |if true, will make the Modal visible    | NA      | Yes
-| `onClose : Funtion`     |will be triggered when Modal is closed  | NA      | Yes
+| `onClose : function`     |will be triggered when Modal is closed  | NA      | Yes
 | `closeOnBlur : boolean` |if true, will close the Modal when clicked outside      |    true | No
 | `closeOnEsc : boolean` |if true, will close the Modal when Esc key is pressed      |    true | No
 | `height : string` |will override the default height of the Modal.<br>Example- `height = '500px'` (can be in px,rem,%)     |  Auto | No
