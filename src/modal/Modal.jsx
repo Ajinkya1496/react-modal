@@ -6,7 +6,8 @@ import './Modal.css';
 const Keys = {
     Tab: 9,
     Esc: 27,
-
+    Space: 32,
+    Enter: 13,
 }
 const focusableElements =
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -82,7 +83,7 @@ class Modal extends React.Component {
     }
 
     handleCloseIconKeyDown = (event) => {
-        if (event.keyCode && (event.keyCode === 13 || event.keyCode === 32)) {
+        if (event.keyCode && (event.keyCode === Keys.Enter || event.keyCode === Keys.Space)) {
             this.handleClose();
         }
 
