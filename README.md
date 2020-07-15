@@ -8,19 +8,21 @@ Use it by directly from the relative path to
 
 ## Implementation
 ```jsx
-import Modal from '../modal/Modal';
+import Modal from 'Modal';
 
-state = {
-  showModal: false
-}
+class App extends React.Component {
+  state = {
+    showModal: false
+  }
 
-toggleModalVisibility = () => {
-  this.setState({ showModal: !this.state.showModal });
-}
+  toggleModalVisibility = () => {
+    this.setState({ showModal: !this.state.showModal });
+  }
     
-<Modal show={this.state.showModal} onClose={this.toggleModalVisibility}>
-  This is the modal content.
-</Modal>
+  <Modal show={this.state.showModal} onClose={this.toggleModalVisibility}>
+    Your modal content goes here!
+  </Modal>
+}
 ```
 
 # API Reference

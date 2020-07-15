@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import './Modal.css';
 
+const Keys = {
+    Tab: 9,
+    Esc: 27,
+    Space: 32,
+    Enter: 13,
+}
 const focusableElements =
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
 
@@ -13,7 +19,7 @@ class Modal extends React.Component {
         document.addEventListener('keydown', (e) => {
             if (!this.props.show) return;
 
-            if (e.keyCode === 27) {
+            if (e.keyCode === Keys.Esc) {
                 this.handleEsc();
                 return;
             }
@@ -21,7 +27,7 @@ class Modal extends React.Component {
             const firstFocusableElement = allFocusableElements[0];
             const lastFocusableElement = allFocusableElements[allFocusableElements.length - 1];
 
-            if (e.keyCode !== 9) {
+            if (e.keyCode !== Keys.Tab) {
                 return;
             }
             if (e.shiftKey) {
@@ -77,7 +83,7 @@ class Modal extends React.Component {
     }
 
     handleCloseIconKeyDown = (event) => {
-        if (event.keyCode && (event.keyCode === 13 || event.keyCode === 32)) {
+        if (event.keyCode && (event.keyCode === Keys.Enter || event.keyCode === Keys.Space)) {
             this.handleClose();
         }
 
